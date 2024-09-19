@@ -6,3 +6,4 @@ huggingface-hub
 streamlit
 python-dotenv
 unstructured
+sentence-transformers
