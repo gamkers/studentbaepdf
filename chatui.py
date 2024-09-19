@@ -1,7 +1,6 @@
 import os
 import re
 from typing import List
-from dotenv import load_dotenv
 from functools import lru_cache
 import concurrent.futures
 import time
@@ -16,12 +15,14 @@ from langchain.chains import RetrievalQA
 from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from Streamlit Secrets
+aws_access_key_id = st.secrets["aws"]["AWS_ACCESS_KEY_ID"]
+aws_secret_access_key = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"]
+groq_api_key = st.secrets["groq"]["GROQ_API_KEY"]
 
 # Define course and subject options
 COURSES = {
-    "BTech": ["cntext", "Compiler Design","databasesecurity"],
+    "BTech": ["cntext", "Compiler Design", "databasesecurity"],
     "ECE": ["Digital Signal Processing", "Embedded Systems"]
 }
 
@@ -30,8 +31,8 @@ def load_documents_from_s3(bucket: str, prefix: str) -> List[Document]:
     loader = S3DirectoryLoader(
         bucket,
         prefix=prefix,
-        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key
     )
     return loader.load()
 
@@ -66,7 +67,7 @@ def create_vector_store(documents: List[Document], model_name: str = "sentence-t
 def setup_qa_chain(vector_store: FAISS) -> RetrievalQA:
     model = ChatGroq(
         model_name="mixtral-8x7b-32768",
-        groq_api_key=os.getenv("GROQ_API_KEY"),
+        groq_api_key=groq_api_key,
         temperature=0
     )
 
