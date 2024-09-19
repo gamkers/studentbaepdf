@@ -14,7 +14,7 @@ from langchain_community.document_loaders import S3DirectoryLoader
 from langchain.chains import RetrievalQA
 from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
-
+st.set_page_config(page_title="S3 QA Chat App", page_icon="🤖")
 page_bg_img = """
 <style>
 #MainMenu {visibility: hidden;}
@@ -122,7 +122,6 @@ def get_s3_prefix(course: str, subject: str) -> str:
     return f"{course_prefix}/{subject_prefix}/"
 
 def main():
-    st.set_page_config(page_title="S3 QA Chat App", page_icon="🤖")
     st.header("STUDENTBAE 🤖")
 
     # Initialize session state
