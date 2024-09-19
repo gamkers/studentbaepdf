@@ -5,3 +5,4 @@ langchain-groq
 huggingface-hub
 streamlit
 python-dotenv
+unstructured
