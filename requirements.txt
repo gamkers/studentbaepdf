@@ -1,0 +1,7 @@
+boto3
+langchain
+langchain-community
+langchain-groq
+huggingface-hub
+streamlit
+python-dotenv
